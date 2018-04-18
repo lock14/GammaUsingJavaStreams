@@ -59,8 +59,8 @@ public class TupleStream implements Stream<Tuple> {
                    .hjoin(other.bfilter(bitMap, joinkey2), joinkey1, joinkey2);
     }
     
-    // this is somewhat analogous to normal bloom
-    // have to except bitMap to populate as a parameter since
+    // this is somewhat analogous to normal bloom.
+    // Have to accept bitMap to populate as a parameter since
     // streams can not split off into two parts
     public TupleStream bloom(BMap bitMap, String joinKey) {
         return this.peek(t -> bitMap.setBit(t.get(joinKey)));
