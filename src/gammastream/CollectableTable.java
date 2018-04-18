@@ -36,7 +36,11 @@ public class CollectableTable {
     }
     
     public void print() {
-        table.print();
+        if (table == null) {
+            System.out.println("No Table");
+        } else {
+            table.print();
+        }
     }
     
     public static Collector<Tuple, CollectableTable, CollectableTable> toTable() {

@@ -49,6 +49,16 @@ public class TupleStream implements Stream<Tuple> {
         return schema;
     }
     
+    public TupleStream gammaJoin(TupleStream other, String joinkey1, String joinkey2) {
+        // if we are parallel, turn on parallel for the other stream
+        if (myTuples.isParallel()) {
+            other = other.parallel();
+        }
+        BMap bitMap = new BMap();
+        return this.bloom(bitMap, joinkey1) 
+                   .hjoin(other.bfilter(bitMap, joinkey2), joinkey1, joinkey2);
+    }
+    
     // this is somewhat analogous to normal bloom
     // have to except bitMap to populate as a parameter since
     // streams can not split off into two parts
@@ -57,17 +67,26 @@ public class TupleStream implements Stream<Tuple> {
     }
     
     public TupleStream bfilter(BMap bitMap, String joinkey) {
-        return this.filter(t -> bitMap.getBit(joinkey));
+        return this.filter(t -> bitMap.getBit(t.get(joinkey)));
     }
     
     public TupleStream hjoin(TupleStream other, String joinkey1, String joinkey2) {
+        // if we are parallel, turn on parallel for the other stream
+        if (myTuples.isParallel()) {
+            other = other.parallel();
+        }
+        // collectors.groupingby uses a HashMap which is what we want
         Map<String, List<Tuple>> map = myTuples.collect(Collectors.groupingBy(t -> t.get(joinkey1)));
+        
+        // create joinTable Schema
         TableSchema joinSchema = this.getSchema().crossProduct(other.getSchema());
-        return new TupleStream(joinSchema, other.filter(t2 -> map.containsKey(t2.get(joinkey2)))
-                                                .flatMap(t2 -> map.get(t2.get(joinkey2)).stream()
-                                                                  .map(t1 -> new Tuple(joinSchema)
-                                                                                 .setValues(t1)
-                                                                                 .setValues(t2))));
+        
+        // use other.myTuples directly to avoid piling on wrappers of TupleStream
+        return new TupleStream(joinSchema, other.myTuples.filter(t2 -> map.containsKey(t2.get(joinkey2)))
+                                                         .flatMap(t2 -> map.get(t2.get(joinkey2)).stream()
+                                                                           .map(t1 -> new Tuple(joinSchema)
+                                                                                          .setValues(t1)
+                                                                                          .setValues(t2))));
     }
     
     // methods from Stream interface
