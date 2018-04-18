@@ -35,14 +35,22 @@ public class TupleStream implements Stream<Tuple> {
     private TableSchema schema;
     private Stream<Tuple> tuples;
     
-    public TupleStream(TableSchema schema, Stream<Tuple> stream) {
+    // make private, and force clients to use factory methods
+    private TupleStream(TableSchema schema, Stream<Tuple> stream) {
         this.schema = Objects.requireNonNull(schema);
         this.tuples = Objects.requireNonNull(stream);
     }
     
     public static TupleStream readtable(String filename) {
-        Table t = Table.readTable(filename);
-        return new TupleStream(t.getSchema(), t.tuples().stream());
+        return stream(Table.readTable(filename));
+    }
+    
+    public static TupleStream stream(Table table) {
+        return stream(table.getSchema(), table.tuples().stream());
+    }
+    
+    public static TupleStream stream(TableSchema schema, Stream<Tuple> tuples) {
+        return new TupleStream(schema, tuples);
     }
     
     public TableSchema getSchema() {
