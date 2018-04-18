@@ -25,7 +25,7 @@ public class Gamma {
         end = System.currentTimeMillis();
         System.out.printf("Running time of parallel version: %d milliseconds\n\n", end - start);
         
-        //let's finish off by trying a three-way join
+        //let's finish off by trying a parallel three-way join
         start = System.currentTimeMillis();
         TupleStream.readtable("RelationData/odetails.pl")
                    .parallel()
