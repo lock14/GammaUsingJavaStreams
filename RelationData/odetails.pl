@@ -1,0 +1,10 @@
+table(odetails,[ono,pno,qty]).
+odetails(1020,10506,1).
+odetails(1020,10507,1).
+odetails(1020,10508,2).
+odetails(1020,10509,3).
+odetails(1021,10601,4).
+odetails(1022,10601,1).
+odetails(1022,10701,1).
+odetails(1023,10800,1).
+odetails(1023,10900,1).
