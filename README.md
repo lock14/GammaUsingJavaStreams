@@ -9,3 +9,4 @@ mapping of the Gamma Join Architecture, but I did manage to come extremely close
 and paradigms.
 
 This Project requires MDELite as dependency. [link](https://www.cs.utexas.edu/users/schwartz/MDELite/index.html)
+Just click the 'bin and documentation link' and add the included jar to the Java Build Path and you should be good to go.
