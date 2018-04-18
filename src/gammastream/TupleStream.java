@@ -89,7 +89,7 @@ public class TupleStream implements Stream<Tuple> {
         // create joinTable Schema
         TableSchema joinSchema = this.schema.crossProduct(other.schema);
         
-        // use other.myTuples directly to avoid piling on wrappers of TupleStream
+        // use other.tuples directly to avoid piling on wrappers of TupleStream
         return new TupleStream(joinSchema, other.tuples.filter(t2 -> map.containsKey(t2.get(joinkey2)))
                                                        .flatMap(t2 -> map.get(t2.get(joinkey2)).stream()
                                                                          .map(t1 -> new Tuple(joinSchema)
