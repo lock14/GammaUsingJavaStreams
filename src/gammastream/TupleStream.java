@@ -83,10 +83,10 @@ public class TupleStream implements Stream<Tuple> {
         
         // use other.myTuples directly to avoid piling on wrappers of TupleStream
         return new TupleStream(joinSchema, other.tuples.filter(t2 -> map.containsKey(t2.get(joinkey2)))
-                                                         .flatMap(t2 -> map.get(t2.get(joinkey2)).stream()
-                                                                           .map(t1 -> new Tuple(joinSchema)
-                                                                                          .setValues(t1)
-                                                                                          .setValues(t2))));
+                                                       .flatMap(t2 -> map.get(t2.get(joinkey2)).stream()
+                                                                         .map(t1 -> new Tuple(joinSchema)
+                                                                                        .setValues(t1)
+                                                                                        .setValues(t2))));
     }
     
     // methods from Stream interface
