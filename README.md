@@ -8,5 +8,5 @@ The goal was to implement the Gamma Join Architecture using the Java Streams par
 mapping of the Gamma Join Architecture, but I did manage to come extremely close while strictly adhering to the Java Streams APIs
 and paradigms.
 
-This Project requires MDELite as dependency. [link](https://www.cs.utexas.edu/users/schwartz/MDELite/index.html)
+This Project requires MDELite as dependency [[link]] (https://www.cs.utexas.edu/users/schwartz/MDELite/index.html).
 Just click the 'bin and documentation link' and add the included jar to the Java Build Path and you should be good to go.
