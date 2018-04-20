@@ -1,7 +1,9 @@
 package gammastream;
 
-public class Gamma {
-
+public class Main {
+    
+    // This class demonstrates how you would use the TupleStream class
+    
     public static void main(String[] args) {
         // non-parallel gamma join (i.e. gamma without HSplit and Merge)
         long start = System.currentTimeMillis();
@@ -19,7 +21,7 @@ public class Gamma {
         start = System.currentTimeMillis();
         TupleStream.readtable("RelationData/client.pl")
                    .parallel()
-                   .gammaJoin(TupleStream.readtable("RelationData/viewing.pl"),  "cno", "cno")
+                   .gammaJoin(TupleStream.readtable("RelationData/viewing.pl"), "cno", "cno")
                    .collect(CollectableTable.toTable())
                    .print();
         end = System.currentTimeMillis();
